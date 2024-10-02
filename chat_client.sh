@@ -2,13 +2,15 @@
 SERVER="localhost"
 PORT=12345
 
-echo "Connecting to chat server at $SERVER on port $PORT."
+read -p "Enter your username: " USERNAME
 
 {
-    nc $SERVER $PORT
+    while true; do
+        nc $SERVER $PORT | sed "s/^/$USERNAME: /"
+    done
 } &
 
 while true; do
     read MESSAGE
-    echo "$MESSAGE" | nc $SERVER $PORT
+    echo "$USERNAME: $MESSAGE" | nc $SERVER $PORT
 done
